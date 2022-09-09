@@ -4,9 +4,10 @@ using System.Text.Json;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Running;
+using NUnit.Framework;
 using JsonSerializerOptions = System.Text.Json.JsonSerializerOptions;
 
-namespace Seahorse.UnitTests;
+namespace JsonTests;
 
 [MemoryDiagnoser]
 public class Program
@@ -14,6 +15,8 @@ public class Program
     public static void Main(string[] args)
     {
         var summary = BenchmarkRunner.Run<Program>(ManualConfig.Create(DefaultConfig.Instance).WithOptions(ConfigOptions.DisableOptimizationsValidator));
+        //TestWithStaticMethod();
+        //TestWithStaticVariable();
     }
     
     public static CustomData data = new CustomData()
@@ -40,9 +43,9 @@ public class Program
             NestedDate = new DateTime(2022,1,1)
         }
     };
-    
+
     [Benchmark]
-    public void TestWithStaticMethod()
+    public static void TestWithStaticMethod()
     {
         var testData = new CustomData();
         for (int i = 0; i < 10000; i++)
@@ -54,7 +57,7 @@ public class Program
 
     
     [Benchmark]
-    public void TestWithStaticVariable()
+    public static void TestWithStaticVariable()
     {
         var testData = new CustomData();
         for (int i = 0; i < 10000; i++)
